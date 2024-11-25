@@ -22,7 +22,7 @@ enum Commands {
 
         /// Output file.
         #[arg(long, short, value_parser = value_parser!(PathBuf))]
-        out: PathBuf,
+        out: Option<PathBuf>,
 
         /// Algorithm to use
         #[arg(long, short, value_enum, default_value_t = Alg::AesGcm)]
@@ -56,7 +56,11 @@ pub fn cli() -> anyhow::Result<()> {
         Commands::Encrypt { in_, out, .. } => {
             let password = prompt_password("password > ")?;
 
-            crate::actions::encrypt::encrypt(password.as_bytes(), in_, out)
+            if let Some(out) = out {
+                crate::actions::encrypt::encrypt(password.as_bytes(), in_, out)
+            } else {
+                crate::actions::encrypt::encrypt_in_place(password.as_bytes(), in_)
+            }
         }
         Commands::Decrypt { in_, out } => {
             let password = prompt_password("password > ")?;

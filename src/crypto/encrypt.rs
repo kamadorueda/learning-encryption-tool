@@ -19,7 +19,7 @@ use crate::utils::try_from_fn::try_from_fn;
 
 const KEY_SIZE: usize = <Aes256Gcm as KeySizeUser>::KeySize::USIZE;
 const NONCE_SIZE: usize = <<Aes256Gcm as AeadCore>::NonceSize as Sub<U5>>::Output::USIZE;
-const TAG_SIZE: usize = <Aes256Gcm as AeadCore>::TagSize::USIZE;
+pub const TAG_SIZE: usize = <Aes256Gcm as AeadCore>::TagSize::USIZE;
 
 #[cfg(debug_assertions)]
 const CHUNK_LEN: usize = 1;
